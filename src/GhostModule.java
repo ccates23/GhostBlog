@@ -1,26 +1,14 @@
 
 
 	
-import static org.junit.Assert.fail;
-import java.io.File;
-import java.io.IOException;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
@@ -29,7 +17,6 @@ import com.relevantcodes.extentreports.LogStatus;
 	public class GhostModule {
 		
 	  public WebDriver driver;
-	  private boolean acceptNextAlert = true;
 	  private StringBuffer verificationErrors = new StringBuffer();
 	  ExtentReports report;
 	  ExtentTest logger;
@@ -39,35 +26,15 @@ import com.relevantcodes.extentreports.LogStatus;
  @BeforeClass
 	  public void setUp() throws Exception {
 	  
-		  System.setProperty("webdriver.chrome.driver", "./jar/chromedriver.exe");
-			driver = new ChromeDriver();
+		  System.setProperty("webdriver.chrome.driver", "//Users//Cates//Downloads//chromedriver");
+			WebDriver driver = new ChromeDriver();
 		    driver.get("https://automate-it.ghost.io/ghost/signin/");
 			driver.manage().window().maximize();
-			
+			WebDriverWait wait = new WebDriverWait(driver, 60);
 	   
-	    }
-
-	  @Test 
-	  public void Login() throws Exception {
-		String Path = ".\\report\\report.html";
-		report = new ExtentReports(Path, false);
-	    logger = report.startTest("Automate It Report");
-	    WebDriverWait wait = new WebDriverWait(driver, 60);
-	    logger.assignCategory("Automate It Blog");
-	    report.addSystemInfo("Environment", "");
-	    report.addSystemInfo("Version", "1.0");
-	    report.addSystemInfo("OS", "");
-	    report.addSystemInfo("Browsers", "Chrome");
-	    report.config()
-	    .documentTitle("Ghost Blog Automation Report")
-	    .reportName("Regression Suite");
-	    logger.log(LogStatus.INFO, "* Browser Started");
-	    Thread.sleep(5000);
-	    String title = driver.getTitle();
-	    System.out.println("* The page title is " + title);
-	    Assert.assertTrue(title.contains("Sign In - Automate It"));
-	    logger.log(LogStatus.PASS, "* Title verified and printed");
 	    
+
+	 
 	    
 	    //=======
 	    
@@ -295,22 +262,9 @@ import com.relevantcodes.extentreports.LogStatus;
       	  
  	     
        }
-
-	  @AfterMethod 
-	  
-	  public void tearDown(ITestResult result) throws Exception {
-		  if(result.getStatus()==ITestResult.FAILURE)
-		  report.endTest(logger);
-		  report.flush();
-		  driver.get("./report/report.html");
-		  report.close();
-	    driver.quit();
-	    String verificationErrorString = verificationErrors.toString();
-	    if (!"".equals(verificationErrorString)) {
-	      fail(verificationErrorString);
-	    }
-	  }
-	}
+    }
+	 
+	
 
 
 
